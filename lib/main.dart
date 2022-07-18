@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(const MyApp());
 
@@ -29,15 +30,26 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
+  static const methodChannel = MethodChannel('com.tfandkusu.tryaddtoapp/call');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Page'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            methodChannel.invokeMethod("back");
+          },
+        ),
       ),
       body: Center(
         child: ElevatedButton(
-            onPressed: () {}, child: const Text('Call native ViewController')),
+            onPressed: () {
+              methodChannel.invokeMethod("callNativePage");
+            },
+            child: const Text('Call native ViewController')),
       ),
     );
   }
